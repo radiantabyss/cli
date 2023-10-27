@@ -40,7 +40,7 @@ class Artisan
         }
 
         //called command
-        $command = $options[1];
+        $command = $options[1] ?? 'help';
 
         //remove unused options
         unset($options['builder']);

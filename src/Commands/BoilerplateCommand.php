@@ -1,0 +1,153 @@
+<?php
+namespace LumiCLI\Commands;
+
+use LumiCLI\Console;
+
+class BoilerplateCommand implements CommandInterface
+{
+    private static $options;
+    private static $cwd;
+    private static $boilerplate;
+    private static $boilerplates = [
+        'vue', 'vue-shop', 'laravel', 'laravel-shop',
+    ];
+
+    public static function run($options) {
+        self::$cwd = getcwd().($_SERVER['SCRIPT_NAME'] == 'lumi.php' ? '/test' : '');
+        self::$options = $options;
+        self::$boilerplate = $options[2] ?? '';
+
+        if ( $_SERVER['SCRIPT_NAME'] == 'lumi.php' ) {
+            mkdir(self::$cwd);
+        }
+
+        if ( isset($options['help']) ) {
+            return self::help();
+        }
+
+        if ( !self::validateBoilerplate() ) {
+            return;
+        }
+
+        if ( !self::validateDirectory() ) {
+            return;
+        }
+
+        if ( !self::download() ) {
+            return;
+        }
+
+        if ( !self::extract() ) {
+            return;
+        }
+
+        if ( !self::copy() ) {
+            return;
+        }
+
+        if ( $_SERVER['SCRIPT_NAME'] == 'lumi.php' ) {
+            delete_recursive(self::$cwd);
+        }
+
+        echo Console::green('Success!');
+    }
+
+    private static function help() {
+        echo Console::normal('This command will copy the selected boilerplate from RadiantAbyss\'s Github repositories into the current directory.')."\n"
+            .Console::normal('Example: ').Console::green('lumi boilerplate vue')
+            .Console::normal(' will copy the contents of ').Console::light_purple('https://github.com/radiantabyss/lumi-vue-boilerplate')
+            .Console::normal(' into the current directory.')."\n"
+            .Console::normal('Note: If the directory is not empty the command will not continue unless ')
+            .Console::yellow('--force')
+            .Console::normal(' parameter is added.')."\n"
+            ."\n"
+            .Console::normal('Available boilerplates:')."\n";
+
+            foreach ( self::$boilerplates as $boilerplate ) {
+                echo Console::green($boilerplate)."\n";
+            }
+    }
+
+    private static function validateBoilerplate() {
+        if ( in_array(self::$boilerplate, self::$boilerplates) ) {
+            return true;
+        }
+
+        echo Console::red('Error: ').Console::normal('Boilerplate is not valid.')."\n\n"
+            .Console::normal('Available boilerplates:')."\n";
+
+        foreach ( self::$boilerplates as $boilerplate ) {
+            echo Console::green($boilerplate)."\n";
+        }
+
+        return false;
+    }
+
+    private static function validateDirectory() {
+        $files = scandir(self::$cwd);
+        $cwd_is_empty = true;
+
+        foreach ( $files as $file ) {
+            if ( in_array($file, ['.', '..', '.git', '.gitignore']) ) {
+                continue;
+            }
+
+            $cwd_is_empty = false;
+        }
+
+        if ( !$cwd_is_empty && !isset(self::$options['force']) ) {
+            echo Console::red('Error: ').Console::normal('directory is not empty. Use ').Console::yellow('--force').Console::normal(' ignore current contents.');
+            return false;
+        }
+
+        return true;
+    }
+
+    private static function download() {
+        $url = 'https://github.com/radiantabyss/lumi-'.self::$boilerplate.'-boilerplate/archive/refs/heads/main.zip';
+
+        if ( !is_writable(self::$cwd) ) {
+            Console::error(self::$cwd.' is not writable or does not exist.');
+            return false;
+        }
+
+        $zip_file = self::$cwd.'/boilerplate.zip';
+
+        $ch = curl_init();
+        curl_setopt($ch, CURLOPT_URL, $url);
+        curl_setopt($ch, CURLOPT_RETURNTRANSFER, true);
+        curl_setopt($ch, CURLOPT_FOLLOWLOCATION, true);
+
+        $data = curl_exec($ch);
+        curl_close($ch);
+
+        file_put_contents($zip_file, $data);
+
+        return true;
+    }
+
+    private static function extract() {
+        $zip_file = self::$cwd.'/boilerplate.zip';
+        $zip = new \ZipArchive;
+
+        try {
+            $zip->open($zip_file);
+            $zip->extractTo(self::$cwd);
+            $zip->close();
+            unlink($zip_file);
+        }
+        catch(\Exception $e) {
+            Console::error($e->getMessage());
+            return false;
+        }
+
+        return true;
+    }
+
+    private static function copy() {
+        copy_recursive(self::$cwd.'/lumi-'.self::$boilerplate.'-boilerplate-main', self::$cwd);
+        delete_recursive(self::$cwd.'/lumi-'.self::$boilerplate.'-boilerplate-main');
+
+        return true;
+    }
+}

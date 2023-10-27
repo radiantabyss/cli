@@ -1,0 +1,34 @@
+{
+    "name": "radiantabyss/lumi-cli",
+    "description": "Lumi CLI",
+    "keywords": [
+        "lumi vue artisan",
+		"vue artisan"
+    ],
+    "homepage": "https://lumi.radiantabyss.com/cli",
+    "license": "proprietary",
+    "type": "library",
+    "authors": [
+        {
+            "name": "Robert B.",
+            "email": "robert@radiantabyss.com",
+            "role": "owner"
+        }
+    ],
+    "require": {
+        "php": ">=7.1"
+    },
+    "autoload": {
+        "psr-4": {
+            "LumiCLI\\": "src"
+        },
+        "files": [
+            "src/helpers.php"
+        ]
+    },
+    "autoload-dev": {
+        "psr-4": {
+            "LumiCLI\\Tests\\": "tests"
+        }
+    }
+}

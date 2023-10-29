@@ -2,4 +2,4 @@
 <?php
 
 require __DIR__.'/vendor/autoload.php';
-\LumiCLI\Artisan::run($argv);
+\Lumi\CLI\Artisan::run($argv);

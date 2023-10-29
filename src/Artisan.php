@@ -1,5 +1,5 @@
 <?php
-namespace LumiCLI;
+namespace Lumi\CLI;
 
 class Artisan
 {
@@ -9,7 +9,7 @@ class Artisan
     public static function run($argv) {
         self::parseArgv($argv);
 
-        $Command = '\\LumiCLI\\Commands\\'.pascal_case(self::$command).'Command';
+        $Command = '\\Lumi\CLI\\Commands\\'.pascal_case(self::$command).'Command';
 
         if ( !class_exists($Command) ) {
             Console::error('Command doesn\'t exist.');

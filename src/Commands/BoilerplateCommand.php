@@ -1,7 +1,7 @@
 <?php
-namespace LumiCLI\Commands;
+namespace Lumi\CLI\Commands;
 
-use LumiCLI\Console;
+use Lumi\CLI\Console;
 
 class BoilerplateCommand implements CommandInterface
 {
@@ -9,8 +9,8 @@ class BoilerplateCommand implements CommandInterface
     private static $cwd;
     private static $boilerplate;
     private static $boilerplates = [
-        'vue', 'vue-ssr', 'vue-shop', 
         'laravel', 'laravel-auth', 'laravel-shop',
+        'vue', 'vue-ssr', 'vue-shop',
     ];
 
     public static function run($options) {
@@ -54,9 +54,11 @@ class BoilerplateCommand implements CommandInterface
     }
 
     private static function help() {
-        echo Console::normal('This command will copy the selected boilerplate from RadiantAbyss\'s Github repositories into the current directory.')."\n"
-            .Console::normal('Example: ').Console::green('lumi boilerplate vue')
-            .Console::normal(' will copy the contents of ').Console::light_purple('https://github.com/radiantabyss/lumi-vue-boilerplate')
+        echo Console::normal('This command will copy the selected boilerplate from ')
+            .Console::light_purple('https://github.com/radiantabyss/lumi-boilerplates')
+            .Console::normal(' into the current directory.')."\n"
+            .Console::normal('Example: ').Console::green('lumi boilerplate vue').Console::normal(' will copy the contents of ')
+            .Console::light_purple('https://github.com/radiantabyss/lumi-boilerplates/archive/refs/heads/vue.zip')
             .Console::normal(' into the current directory.')."\n"
             .Console::normal('Note: If the directory is not empty the command will not continue unless ')
             .Console::yellow('--force')
@@ -105,7 +107,7 @@ class BoilerplateCommand implements CommandInterface
     }
 
     private static function download() {
-        $url = 'https://github.com/radiantabyss/lumi-'.self::$boilerplate.'-boilerplate/archive/refs/heads/main.zip';
+        $url = 'https://github.com/radiantabyss/lumi-boilerplates/archive/refs/heads/'.self::$boilerplate.'.zip';
 
         if ( !is_writable(self::$cwd) ) {
             Console::error(self::$cwd.' is not writable or does not exist.');
@@ -146,8 +148,8 @@ class BoilerplateCommand implements CommandInterface
     }
 
     private static function copy() {
-        copy_recursive(self::$cwd.'/lumi-'.self::$boilerplate.'-boilerplate-main', self::$cwd);
-        delete_recursive(self::$cwd.'/lumi-'.self::$boilerplate.'-boilerplate-main');
+        copy_recursive(self::$cwd.'/lumi-boilerplates-'.self::$boilerplate.'/'.self::$boilerplate, self::$cwd);
+        delete_recursive(self::$cwd.'/lumi-boilerplates-'.self::$boilerplate);
 
         return true;
     }

@@ -20,7 +20,7 @@
     },
     "autoload": {
         "psr-4": {
-            "LumiCLI\\": "src"
+            "Lumi\\CLI\\": "src"
         },
         "files": [
             "src/helpers.php"
@@ -28,7 +28,7 @@
     },
     "autoload-dev": {
         "psr-4": {
-            "LumiCLI\\Tests\\": "tests"
+            "Lumi\\CLI\\Tests\\": "tests"
         }
     }
 }

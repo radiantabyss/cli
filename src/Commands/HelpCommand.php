@@ -1,7 +1,7 @@
 <?php
-namespace LumiCLI\Commands;
+namespace Lumi\CLI\Commands;
 
-use LumiCLI\Console;
+use Lumi\CLI\Console;
 
 class HelpCommand implements CommandInterface
 {

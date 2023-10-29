@@ -1,5 +1,5 @@
 <?php
-namespace LumiCLI\Commands;
+namespace Lumi\CLI\Commands;
 
 interface CommandInterface
 {

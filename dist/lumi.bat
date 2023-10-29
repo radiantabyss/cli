@@ -1,2 +1,2 @@
 @echo off
-php "%~dp0lumi.phar"
+php "%~dp0lumi.phar" %*

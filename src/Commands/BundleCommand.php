@@ -11,7 +11,7 @@ class BundleCommand implements CommandInterface
     private static $bundles = [
         'laravel-auth' => [
             'composer' => [
-                'radiantabyss/lumi-laravel-auth "^3.0"',
+                'radiantabyss/lumi-laravel-auth:^3.0',
             ],
             'commands' => [
                 'php artisan vendor:publish lumi-auth:config',
@@ -35,12 +35,12 @@ class BundleCommand implements CommandInterface
         ],
         'vue-ssr' => [
             'composer' => [
-                'jaybizzle/crawler-detect "^1.2"',
-                'laravel/framework "10.*"',
-                'radiantabyss/lumi-laravel-core "1.*"',
+                'jaybizzle/crawler-detect:^1.2',
+                'laravel/framework:10.*',
+                'radiantabyss/lumi-laravel-core:1.*',
             ],
             'composer_dev' => [
-                'filp/whoops "^2.0"',
+                'filp/whoops:^2.0',
             ],
         ],
         'vue-shop' => [],
@@ -190,10 +190,10 @@ class BundleCommand implements CommandInterface
         foreach ( self::$bundles[self::$bundle] as $type => $dependencies ) {
             foreach ( $dependencies as $dependency ) {
                 if ( $type == 'composer' ) {
-                    $command = 'composer install '.$dependency;
+                    $command = 'composer require '.$dependency;
                 }
                 else if ( $type == 'composer_dev' ) {
-                    $command = 'composer install '.$dependency.' --dev';
+                    $command = 'composer require '.$dependency.' --dev';
                 }
                 else if ( $type == 'npm' ) {
                     $command = 'npm install '.$dependency;

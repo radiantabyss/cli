@@ -14,19 +14,19 @@ class BoilerplateCommand implements CommandInterface
     ];
 
     public static function run($options) {
-        self::$cwd = getcwd().($_SERVER['SCRIPT_NAME'] == 'lumi.php' ? '/test' : '');
+        self::$cwd = getcwd().(in_array($_SERVER['SCRIPT_NAME'], ['a', 'artisan']) ? '/test' : '');
         self::$options = $options;
         self::$boilerplate = $options[2] ?? '';
-
-        if ( $_SERVER['SCRIPT_NAME'] == 'lumi.php' ) {
-            mkdir(self::$cwd);
-        }
-
+        
         if ( isset($options['help']) ) {
             return self::help();
         }
 
-        if ( !self::validateBoilerplate() ) {
+        if ( in_array($_SERVER['SCRIPT_NAME'], ['a', 'artisan']) ) {
+            mkdir(self::$cwd);
+        }
+
+        if ( !self::validate() ) {
             return;
         }
 
@@ -46,7 +46,7 @@ class BoilerplateCommand implements CommandInterface
             return;
         }
 
-        if ( $_SERVER['SCRIPT_NAME'] == 'lumi.php' ) {
+        if ( in_array($_SERVER['SCRIPT_NAME'], ['a', 'artisan']) ) {
             delete_recursive(self::$cwd);
         }
 
@@ -66,12 +66,12 @@ class BoilerplateCommand implements CommandInterface
             ."\n"
             .Console::normal('Available boilerplates:')."\n";
 
-            foreach ( self::$boilerplates as $boilerplate ) {
-                echo Console::green($boilerplate)."\n";
-            }
+        foreach ( self::$boilerplates as $boilerplate ) {
+            echo Console::green($boilerplate)."\n";
+        }
     }
 
-    private static function validateBoilerplate() {
+    private static function validate() {
         if ( in_array(self::$boilerplate, self::$boilerplates) ) {
             return true;
         }
@@ -87,19 +87,12 @@ class BoilerplateCommand implements CommandInterface
     }
 
     private static function validateDirectory() {
-        $files = scandir(self::$cwd);
-        $cwd_is_empty = true;
-
-        foreach ( $files as $file ) {
-            if ( in_array($file, ['.', '..', '.git', '.gitignore']) ) {
-                continue;
-            }
-
-            $cwd_is_empty = false;
-        }
+        $cwd_is_empty = empty(array_filter(scandir(self::$cwd), function($file) {
+            return !in_array($file, ['.', '..', '.git', '.gitignore']);
+        }));
 
         if ( !$cwd_is_empty && !isset(self::$options['force']) ) {
-            echo Console::red('Error: ').Console::normal('directory is not empty. Use ').Console::yellow('--force').Console::normal(' ignore current contents.');
+            echo Console::red('Error: ').Console::normal('Directory is not empty. Use ').Console::yellow('--force').Console::normal(' ignore current contents.');
             return false;
         }
 

@@ -10,14 +10,14 @@ class BoilerplateCommand implements CommandInterface
     private static $boilerplate;
     private static $boilerplates = [
         'laravel', 'laravel-auth', 'laravel-shop',
-        'vue', 'vue-ssr', 'vue-shop',
+        'vue', 'vue-ssr', 'vue-admin', 'vue-shop',
     ];
 
     public static function run($options) {
         self::$cwd = getcwd().(in_array($_SERVER['SCRIPT_NAME'], ['a', 'artisan']) ? '/test' : '');
         self::$options = $options;
         self::$boilerplate = $options[2] ?? '';
-        
+
         if ( isset($options['help']) ) {
             return self::help();
         }

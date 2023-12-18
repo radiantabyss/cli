@@ -2,6 +2,7 @@
 namespace Lumi\CLI\Commands;
 
 use Lumi\CLI\Console;
+use Lumi\CLI\Config;
 
 class BundleCommand implements CommandInterface
 {
@@ -9,41 +10,7 @@ class BundleCommand implements CommandInterface
     private static $cwd;
     private static $bundle;
     private static $bundles = [
-        'laravel-auth' => [
-            'composer' => [
-                'radiantabyss/lumi-laravel-auth:^3.0',
-            ],
-            'commands' => [
-                'php artisan vendor:publish lumi-auth:config',
-                'php artisan vendor:publish lumi-auth:routes',
-                'php artisan vendor:publish lumi-auth:migrations',
-            ],
-        ],
-        'laravel-shop' => [],
-        'vue-auth' => [],
-        'vue-admin' => [
-            'npm' => [
-                '@ivanv/vue-collapse-transition@0.2.1',
-                'vue-clipboard2@0.3.3',
-                'dropzone@5.5.1',
-                'moment@2.24.0',
-                'moment-timezone@0.5.43',
-                'vue-select@3.18.3',
-                'vue-slider-component@3.2.15',
-                'vue2-datepicker@3.11.1',
-            ],
-        ],
-        'vue-ssr' => [
-            'composer' => [
-                'jaybizzle/crawler-detect:^1.2',
-                'laravel/framework:10.*',
-                'radiantabyss/lumi-laravel-core:1.*',
-            ],
-            'composer_dev' => [
-                'filp/whoops:^2.0',
-            ],
-        ],
-        'vue-shop' => [],
+
     ];
 
     public static function run($options) {
@@ -80,6 +47,7 @@ class BundleCommand implements CommandInterface
         }
 
         self::installDependencies();
+        self::runPostInstallCommands();
 
         if ( in_array($_SERVER['SCRIPT_NAME'], ['a', 'artisan']) ) {
             delete_recursive(self::$cwd);
@@ -187,7 +155,9 @@ class BundleCommand implements CommandInterface
     }
 
     private static function installDependencies() {
-        foreach ( self::$bundles[self::$bundle] as $type => $dependencies ) {
+        $grouped_dependencies = Config::get('bundle-dependencies')[self::$bundle] ?? [];
+
+        foreach ( $grouped_dependencies as $type => $dependencies ) {
             foreach ( $dependencies as $dependency ) {
                 if ( $type == 'composer' ) {
                     $command = 'composer require '.$dependency;
@@ -201,12 +171,17 @@ class BundleCommand implements CommandInterface
                 else if ( $type == 'npm_dev' ) {
                     $command = 'npm install '.$dependency.' --save-dev';
                 }
-                else if ( $type == 'commands' ) {
-                    $command = $dependency;
-                }
 
                 shell_exec($command);
             }
+        }
+    }
+
+    private static function runPostInstallCommands() {
+        $commands = Config::get('bundle-post-install-commands')[self::$bundle] ?? [];
+
+        foreach ( $commands as $command ) {
+            shell_exec($command);
         }
     }
 }

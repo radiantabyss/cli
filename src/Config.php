@@ -20,6 +20,9 @@ class Config
                     'vue-select@3.18.3',
                     'vue-slider-component@3.2.15',
                     'vue2-datepicker@3.11.1',
+                    'vue-smooth-dnd@0.8.1',
+                    "tinymce@5.10.9",
+                    "@tinymce/tinymce-vue@3.2.8",
                 ],
             ],
             'vue-ssr' => [

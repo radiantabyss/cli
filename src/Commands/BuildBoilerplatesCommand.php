@@ -54,7 +54,10 @@ class BuildBoilerplatesCommand implements CommandInterface
                     }
 
                     $contents[($type == 'npm_dev' ? 'devD' : 'd').'ependencies'][$exp[0]] = $exp[1];
-                    file_put_contents(self::$cwd.'/'.$boilerplate.'/package.json', json_encode($contents, JSON_UNESCAPED_SLASHES | JSON_PRETTY_PRINT));
+                    $json_contents = json_encode($contents, JSON_UNESCAPED_SLASHES | JSON_PRETTY_PRINT);
+                    $json_contents = str_replace('"rules": [],', '"rules": {},', $json_contents);
+                    $json_contents = str_replace('"autoprefixer": []', '"autoprefixer": {}', $json_contents);
+                    file_put_contents(self::$cwd.'/'.$boilerplate.'/package.json', $json_contents);
                 }
             }
         }

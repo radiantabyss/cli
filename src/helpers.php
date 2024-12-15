@@ -161,3 +161,17 @@ if ( !function_exists('encode_json') ) {
         return json_encode($array);
     }
 }
+
+if ( !function_exists('plural') ) {
+    function plural($str) {
+        if ( preg_match('/y$/', $str) ) {
+            return preg_replace('/y$/', 'ies', $str);
+        }
+
+        if ( preg_match('/s$/', $str) ) {
+            return $str.'es';
+        }
+
+        return $str.'s';
+    }
+}

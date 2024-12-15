@@ -27,7 +27,18 @@ class Artisan
     private static function parseArgv($argv) {
         $options = [];
 
+        $i = -1;
         foreach ( $argv as $k => $a ) {
+            $i++;
+            if ( $i == 0 ) {
+                continue;
+            }
+
+            if ( $i == 1 ) {
+                self::$command = $a;
+                continue;
+            }
+
             if ( preg_match('/\-\-(.+)=(.+)/', $a, $m) ) {
                 $options[$m[1]] = $m[2];
             }
@@ -35,19 +46,10 @@ class Artisan
                 $options[$m[1]] = true;
             }
             else {
-                $options[$k] = $a;
+                $options[] = $a;
             }
         }
 
-        //called command
-        $command = $options[1] ?? 'help';
-
-        //remove unused options
-        unset($options['builder']);
-        unset($options[0]);
-        unset($options[1]);
-
-        self::$command = $command;
         self::$options = $options;
     }
 }

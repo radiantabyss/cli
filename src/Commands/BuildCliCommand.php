@@ -18,8 +18,7 @@ class BuildCliCommand implements CommandInterface
                 //ignore these files
                 $ignored_files = [
                     'src/Commands/BuildCliCommand.php',
-                    'src/Commands/BuildBoilerplatesCommand.php',
-                    'src/Commands/PublishBundlesOrBoilerplatesCommand.php'
+                    'src/Commands/PublishSourcesCommand.php'
                 ];
 
                 if ( in_array($file, $ignored_files) ) {

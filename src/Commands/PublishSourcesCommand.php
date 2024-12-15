@@ -3,31 +3,17 @@ namespace Lumi\CLI\Commands;
 
 use Lumi\CLI\Console;
 
-class PublishCommand implements CommandInterface
+class PublishSourcesCommand implements CommandInterface
 {
     private static $cwd;
 
     public static function run($options) {
-        $can_publish = ['boilerplates', 'bundles'];
-        $to_publish = $options[2] ?? '';
-
-        if ( !in_array($options[2], $can_publish) ) {
-            echo Console::normal('You can publish ').Console::green('boilerplates')
-                .Console::normal(' or ').Console::green('bundles');
-            return;
-        }
-
         //change cwd
-        self::$cwd = getcwd().'/../'.$to_publish;
+        self::$cwd = getcwd().'/../sources';
         chdir(self::$cwd);
 
-        //publish
-        self::publish();
-    }
-
-    private static function publish() {
         // Checkout the base branch
-        $main_branch = 'main';
+        $main_branch = 'master';
         shell_exec("git checkout $main_branch");
 
         // Update the base branch
@@ -47,11 +33,9 @@ class PublishCommand implements CommandInterface
             //check if branch exists
             if ( !preg_match('/fatal/', shell_exec("git show-ref --verify --quiet refs/heads/$branch")) ) {
                 // Branch exists; get its latest version
-                $current_version = trim(shell_exec("git tag -l '*' --sort=-v:refname | head -n 1"));
-                // dmp('dadada');
-                // dmp($current_version);
+                $current_version = trim(shell_exec("git tag -l '*' --sort=-v:refname | head -n 1") ?? '');
 
-                if (!$current_version) {
+                if ( !$current_version ) {
                     $current_version = 'v1.0.0';
                 }
 
@@ -61,7 +45,6 @@ class PublishCommand implements CommandInterface
                 // Branch doesn't exist; create it with an initial version of v1.0.0
                 $version = 'v1.0.0';
             }
-            // ddmp($version);
 
             // Checkout to a new temporary branch
             shell_exec("git checkout -B temp_$branch $main_branch");

@@ -5,8 +5,8 @@ class BuildCliCommand implements CommandInterface
 {
     public static function run($options) {
         try {
-            $files = get_files_recursive('src');
-            $files = array_merge($files, get_files_recursive('vendor'));
+            $files = get_files_recursive('src', [], false);
+            $files = array_merge($files, get_files_recursive('vendor', [], false));
             $files[] = 'artisan';
 
             $phar = new \Phar('lumi.phar');

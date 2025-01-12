@@ -11,7 +11,9 @@ class SassCommand implements CommandInterface
         $current_folder = '';
 
         foreach ( $files as $file ) {
+            $file = str_replace(getcwd().'/', '', $file);
             $file = str_replace('src/Sass/', '', str_replace('\\', '/', $file));
+            
             if ( in_array($file, ['app.scss', 'abstracts/_settings.scss', 'abstracts/_mixins.scss']) ) {
                 continue;
             }

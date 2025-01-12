@@ -23,8 +23,9 @@ class ElectronBuilder
     }
 
     private static function setVersion() {
-        $package_json = file_get_contents('package.json');
-        file_put_contents('package.json', preg_replace('/"version"\: ".*?"/', '"version": "'.self::$options['version'].'"', $package_json));
+        $contents = abs_file_get_contents('package.json');
+        $contents = preg_replace('/"version"\: ".*?"/', '"version": "'.self::$options['version'].'"', $contents);
+        abs_file_put_contents('package.json', $contents);
     }
 
     private static function build() {
@@ -32,20 +33,20 @@ class ElectronBuilder
         delete_recursive('dist_electron');
 
         //get app name from vue config
-        preg_match('/productName\: \'(.*)?\'\,/', file_get_contents('vue.config.js'), $match);
+        preg_match('/productName\: \'(.*)?\'\,/', abs_file_get_contents('vue.config.js'), $match);
         $app_name = $match[1];
 
         //get vue config contents
-        $vue_config = file_get_contents('vue.config.js');
+        $vue_config = abs_file_get_contents('vue.config.js');
 
         //set env to production
-        $env_contents = file_get_contents('.env');
-        file_put_contents('.env', str_replace('VUE_APP_ENV=local', 'VUE_APP_ENV=production', $env_contents));
+        $env_contents = abs_file_get_contents('.env');
+        abs_file_put_contents('.env', str_replace('VUE_APP_ENV=local', 'VUE_APP_ENV=production', $env_contents));
 
         $archs = ['ia32', 'x64'];
         foreach ( $archs as $arch ) {
             //set arch
-            file_put_contents('vue.config.js', preg_replace("/'nsis.*?'/", "'nsis:$arch'", $vue_config));
+            abs_file_put_contents('vue.config.js', preg_replace("/'nsis.*?'/", "'nsis:$arch'", $vue_config));
 
             //run build
             shell_exec('npm run electron:build');
@@ -56,12 +57,12 @@ class ElectronBuilder
         }
 
         //restore vue config
-        file_put_contents('vue.config.js', $vue_config);
+        abs_file_put_contents('vue.config.js', $vue_config);
 
         //restore env to local
-        file_put_contents('.env', str_replace('VUE_APP_ENV=production', 'VUE_APP_ENV=local', $env_contents));
+        abs_file_put_contents('.env', str_replace('VUE_APP_ENV=production', 'VUE_APP_ENV=local', $env_contents));
 
-        if ( !file_exists('dist_electron') ) {
+        if ( !abs_file_exists('dist_electron') ) {
             throw new \Exception('Electron Builder failed.');
         }
     }

@@ -32,13 +32,13 @@ class ElectronPublisher implements PublisherInterface
 
     private static function setName() {
         //get app name from vue config
-        preg_match('/productName\: \'(.*)?\'\,/', file_get_contents('vue.config.js'), $match);
+        preg_match('/productName\: \'(.*)?\'\,/', abs_file_get_contents('vue.config.js'), $match);
         self::$name = $match[1];
     }
 
     private static function setVersion() {
         //get version from package.json
-        preg_match('/"version"\: "(.*)?"/', file_get_contents('package.json'), $match);
+        preg_match('/"version"\: "(.*)?"/', abs_file_get_contents('package.json'), $match);
         self::$version = $match[1];
     }
 
@@ -134,6 +134,6 @@ class ElectronPublisher implements PublisherInterface
         }
 
         $xml .= '</Queue></FileZilla3>';
-        file_put_contents('../filezilla.xml', $xml);
+        abs_file_put_contents('../filezilla.xml', $xml);
     }
 }

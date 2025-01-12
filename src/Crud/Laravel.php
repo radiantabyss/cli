@@ -66,7 +66,7 @@ class CreateAction extends Action
 END;
 
         $contents = ob_get_clean();
-        file_put_contents($folder_path.'/Actions/CreateAction.php', $contents);
+        abs_file_put_contents($folder_path.'/Actions/CreateAction.php', $contents);
     }
 
     private static function DeleteAction($folder_path, $namespace, $model_name, $item_name) {
@@ -97,7 +97,7 @@ class DeleteAction extends Action
 END;
 
         $contents = ob_get_clean();
-        file_put_contents($folder_path.'/Actions/DeleteAction.php', $contents);
+        abs_file_put_contents($folder_path.'/Actions/DeleteAction.php', $contents);
     }
 
     private static function EditAction($folder_path, $namespace, $model_name, $item_name) {
@@ -129,7 +129,7 @@ class EditAction extends Action
 END;
 
         $contents = ob_get_clean();
-        file_put_contents($folder_path.'/Actions/EditAction.php', $contents);
+        abs_file_put_contents($folder_path.'/Actions/EditAction.php', $contents);
     }
 
     private static function ListAction($folder_path, $namespace, $model_name, $item_name) {
@@ -166,7 +166,7 @@ class ListAction extends Action
 END;
 
         $contents = ob_get_clean();
-        file_put_contents($folder_path.'/Actions/ListAction.php', $contents);
+        abs_file_put_contents($folder_path.'/Actions/ListAction.php', $contents);
     }
 
     private static function PatchAction($folder_path, $namespace, $model_name, $item_name) {
@@ -206,7 +206,7 @@ class PatchAction extends Action
 END;
 
         $contents = ob_get_clean();
-        file_put_contents($folder_path.'/Actions/PatchAction.php', $contents);
+        abs_file_put_contents($folder_path.'/Actions/PatchAction.php', $contents);
     }
 
     private static function SearchAction($folder_path, $namespace, $model_name, $item_name) {
@@ -256,7 +256,7 @@ class SearchAction extends Action
 END;
 
         $contents = ob_get_clean();
-        file_put_contents($folder_path.'/Actions/SearchAction.php', $contents);
+        abs_file_put_contents($folder_path.'/Actions/SearchAction.php', $contents);
     }
 
     private static function SingleAction($folder_path, $namespace, $model_name, $item_name) {
@@ -288,7 +288,7 @@ class SingleAction extends Action
 END;
 
         $contents = ob_get_clean();
-        file_put_contents($folder_path.'/Actions/SingleAction.php', $contents);
+        abs_file_put_contents($folder_path.'/Actions/SingleAction.php', $contents);
     }
 
     private static function UpdateAction($folder_path, $namespace, $model_name, $item_name) {
@@ -328,7 +328,7 @@ class UpdateAction extends Action
 END;
 
         $contents = ob_get_clean();
-        file_put_contents($folder_path.'/Actions/UpdateAction.php', $contents);
+        abs_file_put_contents($folder_path.'/Actions/UpdateAction.php', $contents);
     }
 
     private static function Filter($folder_path, $namespace, $model_name, $item_name) {
@@ -348,7 +348,7 @@ class Filter extends Lumi_Filter
 END;
 
         $contents = ob_get_clean();
-        file_put_contents($folder_path.'/Filters/Filter.php', $contents);
+        abs_file_put_contents($folder_path.'/Filters/Filter.php', $contents);
     }
 
     private static function EditPresenter($folder_path, $namespace, $model_name, $item_name) {
@@ -370,7 +370,7 @@ class EditPresenter
 END;
 
         $contents = ob_get_clean();
-        file_put_contents($folder_path.'/Presenters/EditPresenter.php', $contents);
+        abs_file_put_contents($folder_path.'/Presenters/EditPresenter.php', $contents);
     }
 
     private static function ListPresenter($folder_path, $namespace, $model_name, $item_name) {
@@ -389,7 +389,7 @@ class ListPresenter
 END;
 
         $contents = ob_get_clean();
-        file_put_contents($folder_path.'/Presenters/ListPresenter.php', $contents);
+        abs_file_put_contents($folder_path.'/Presenters/ListPresenter.php', $contents);
     }
 
     private static function Presenter($folder_path, $namespace, $model_name, $item_name) {
@@ -408,7 +408,7 @@ class Presenter
 END;
 
         $contents = ob_get_clean();
-        file_put_contents($folder_path.'/Presenters/Presenter.php', $contents);
+        abs_file_put_contents($folder_path.'/Presenters/Presenter.php', $contents);
     }
 
     private static function PatchTransformer($folder_path, $namespace, $model_name, $item_name) {
@@ -435,7 +435,7 @@ class PatchTransformer
 END;
 
         $contents = ob_get_clean();
-        file_put_contents($folder_path.'/Transformers/PatchTransformer.php', $contents);
+        abs_file_put_contents($folder_path.'/Transformers/PatchTransformer.php', $contents);
     }
 
     private static function Transformer($folder_path, $namespace, $model_name, $item_name) {
@@ -454,7 +454,7 @@ class Transformer
 END;
 
         $contents = ob_get_clean();
-        file_put_contents($folder_path.'/Transformers/Transformer.php', $contents);
+        abs_file_put_contents($folder_path.'/Transformers/Transformer.php', $contents);
     }
 
     private static function PatchValidator($folder_path, $namespace, $model_name, $item_name) {
@@ -473,7 +473,7 @@ class PatchValidator
 END;
 
         $contents = ob_get_clean();
-        file_put_contents($folder_path.'/Validators/PatchValidator.php', $contents);
+        abs_file_put_contents($folder_path.'/Validators/PatchValidator.php', $contents);
     }
 
     private static function Validator($folder_path, $namespace, $model_name, $item_name) {
@@ -511,6 +511,6 @@ class Validator
 END;
 
         $contents = ob_get_clean();
-        file_put_contents($folder_path.'/Validators/PatchValidator.php', $contents);
+        abs_file_put_contents($folder_path.'/Validators/PatchValidator.php', $contents);
     }
 }

@@ -15,12 +15,10 @@ class CrudCommand implements CommandInterface
         $domain = $options[0];
         $force = $options['force'] ?? false;
 
-        chdir('G:\www\timereport\front');
-
-        if ( file_exists('env.php') ) {
+        if ( abs_file_exists('env.php') ) {
             return self::laravel($domain, $force);
         }
-        else if ( file_exists('.env') ) {
+        else if ( abs_file_exists('.env') ) {
             return self::vue($domain, $force);
         }
 
@@ -43,7 +41,7 @@ class CrudCommand implements CommandInterface
         $model_name = implode($exp2);
         $item_name = implode(' ', $exp2);
 
-        if ( file_exists($folder_path) && !$force ) {
+        if ( abs_file_exists($folder_path) && !$force ) {
             echo Console::red('Error!').' A Domain with this name already exists.';
             return;
         }
@@ -69,7 +67,7 @@ class CrudCommand implements CommandInterface
             return str_replace('_', '-', snake_case($_exp2));
         }, $exp2));
 
-        if ( file_exists($folder_path) && !$force ) {
+        if ( abs_file_exists($folder_path) && !$force ) {
             echo Console::red('Error!').' A Domain with this name already exists.';
             return;
         }

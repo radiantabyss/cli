@@ -77,7 +77,7 @@ export default {
 END;
 
         $contents = ob_get_clean();
-        file_put_contents($folder_path.'/Actions/EditAction.vue', $contents);
+        abs_file_put_contents($folder_path.'/Actions/EditAction.vue', $contents);
     }
 
     private static function ListAction($folder_path, $namespace, $item_name, $url) {
@@ -124,7 +124,7 @@ export default {
 END;
 
         $contents = ob_get_clean();
-        file_put_contents($folder_path.'/Actions/ListAction.vue', $contents);
+        abs_file_put_contents($folder_path.'/Actions/ListAction.vue', $contents);
     }
 
     private static function NewAction($folder_path, $namespace, $item_name, $url) {
@@ -191,7 +191,7 @@ export default {
 END;
 
         $contents = ob_get_clean();
-        file_put_contents($folder_path.'/Actions/NewAction.vue', $contents);
+        abs_file_put_contents($folder_path.'/Actions/NewAction.vue', $contents);
     }
 
     private static function Form($folder_path, $namespace, $item_name, $url) {
@@ -262,7 +262,7 @@ export default {
 END;
 
         $contents = ob_get_clean();
-        file_put_contents($folder_path.'/Forms/Form.vue', $contents);
+        abs_file_put_contents($folder_path.'/Forms/Form.vue', $contents);
     }
 
     private static function Filters($folder_path, $namespace, $item_name, $url) {
@@ -296,7 +296,7 @@ export default {
 END;
 
         $contents = ob_get_clean();
-        file_put_contents($folder_path.'/Partials/Filters.vue', $contents);
+        abs_file_put_contents($folder_path.'/Partials/Filters.vue', $contents);
     }
 
     private static function Table($folder_path, $namespace, $item_name, $url) {
@@ -399,6 +399,6 @@ export default {
 END;
 
         $contents = ob_get_clean();
-        file_put_contents($folder_path.'/Partials/Table.vue', $contents);
+        abs_file_put_contents($folder_path.'/Partials/Table.vue', $contents);
     }
 }

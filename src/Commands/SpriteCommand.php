@@ -19,7 +19,7 @@ class SpriteCommand implements CommandInterface
 
         shell_exec((!command_exists('svg-sprite-generate') ? 'npx -p svg-sprite-generator ' : '').'svg-sprite-generate -d sprites/svgs -o static/sprites.svg');
 
-        $sprites = file_get_contents('static/sprites.svg');
+        $sprites = abs_file_get_contents('static/sprites.svg');
         $sprites = preg_replace('/stroke="((?!none).)*?"/', 'stroke="currentColor"', $sprites);
         $sprites = preg_replace('/fill="((?!none).)*?"/', 'fill="currentColor"', $sprites);
         $sprites = str_replace('fill-static', 'fill', $sprites);
@@ -35,7 +35,7 @@ class SpriteCommand implements CommandInterface
                 continue;
             }
 
-            $contents = file_get_contents('sprites/svgs/'.$svg);
+            $contents = abs_file_get_contents('sprites/svgs/'.$svg);
 
             //put back svg's attrs
             preg_match('/\<svg.*?\>/', $contents, $match);
@@ -60,11 +60,11 @@ class SpriteCommand implements CommandInterface
             }
         }
 
-        file_put_contents('static/sprites.svg', '<svg xmlns="http://www.w3.org/2000/svg">'.$sprites.'</svg>');
+        abs_file_put_contents('static/sprites.svg', '<svg xmlns="http://www.w3.org/2000/svg">'.$sprites.'</svg>');
 
         //update env file
-        $env_contents = file_get_contents('.env');
+        $env_contents = abs_file_get_contents('.env');
         $env_contents = preg_replace('/VUE_APP_SPRITE_VERSION=.*?\n/', "VUE_APP_SPRITE_VERSION=".random_string()."\n", $env_contents);
-        file_put_contents('.env', $env_contents);
+        abs_file_put_contents('.env', $env_contents);
     }
 }

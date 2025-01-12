@@ -49,3 +49,4 @@ vendor
 test
 env.php
 /a
+/dist

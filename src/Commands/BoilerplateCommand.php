@@ -116,7 +116,7 @@ class BoilerplateCommand implements CommandInterface
         $data = curl_exec($ch);
         curl_close($ch);
 
-        file_put_contents($zip_file, $data);
+        abs_file_put_contents($zip_file, $data);
 
         return true;
     }

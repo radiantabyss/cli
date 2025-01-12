@@ -9,6 +9,10 @@ class Artisan
     public static function run($argv) {
         self::parseArgv($argv);
 
+        if ( isset(self::$options['cwd']) ) {
+            chdir(self::$options['cwd']);
+        }
+
         $Command = '\\Lumi\CLI\\Commands\\'.pascal_case(self::$command).'Command';
 
         if ( !class_exists($Command) ) {

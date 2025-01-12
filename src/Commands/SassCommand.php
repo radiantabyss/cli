@@ -25,6 +25,6 @@ class SassCommand implements CommandInterface
             $contents .= '@import "'.preg_replace('/\.scss$/', '', str_replace('/_', '/', $file))."\";\n";
         }
 
-        file_put_contents('src/Sass/app.scss', $contents);
+        abs_file_put_contents('src/Sass/app.scss', $contents);
     }
 }

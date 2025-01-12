@@ -6,7 +6,7 @@ class VuePublisher implements PublisherInterface
     private static $options;
 
     public static function run($options) {
-        if ( !file_exists('dist') ) {
+        if ( !abs_file_exists('dist') ) {
             return;
         }
 

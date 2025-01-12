@@ -21,7 +21,7 @@ class LangCommand implements CommandInterface
                 continue;
             }
 
-            $contents = isset($options['force']) ? [] : decode_json(file_get_contents('static/lang/'.$lang.'.json', 'UTF-8'));
+            $contents = isset($options['force']) ? [] : decode_json(abs_file_get_contents('static/lang/'.$lang.'.json'));
 
             foreach ( $terms as $term ) {
                 $contents[$term] = $contents[$term] ?? $term;
@@ -31,7 +31,7 @@ class LangCommand implements CommandInterface
                 $contents = self::translate($contents, $lang);
             }
 
-            file_put_contents('static/lang/'.$lang.'.json', json_encode($contents, JSON_PRETTY_PRINT|JSON_UNESCAPED_UNICODE));
+            abs_file_put_contents('static/lang/'.$lang.'.json', json_encode($contents, JSON_PRETTY_PRINT|JSON_UNESCAPED_UNICODE));
 
             //check if there are any untranslated terms
             if ( isset($options['check']) ) {
@@ -64,7 +64,7 @@ class LangCommand implements CommandInterface
                 continue;
             }
 
-            $contents = file_get_contents($file);
+            $contents = abs_file_get_contents($file);
 
             $regexs = [
                 '/\_\_\(\'(.*?)\'\)/', // __() function

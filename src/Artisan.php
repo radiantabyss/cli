@@ -1,5 +1,5 @@
 <?php
-namespace Lumi\CLI;
+namespace RA\CLI;
 
 class Artisan
 {
@@ -13,7 +13,7 @@ class Artisan
             chdir(self::$options['cwd']);
         }
 
-        $Command = '\\Lumi\CLI\\Commands\\'.pascal_case(self::$command).'Command';
+        $Command = '\\RA\CLI\\Commands\\'.pascal_case(self::$command).'Command';
 
         if ( !class_exists($Command) ) {
             Console::error('Command doesn\'t exist.');

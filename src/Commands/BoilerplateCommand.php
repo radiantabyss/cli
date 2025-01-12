@@ -1,7 +1,7 @@
 <?php
-namespace Lumi\CLI\Commands;
+namespace RA\CLI\Commands;
 
-use Lumi\CLI\Console;
+use RA\CLI\Console;
 
 class BoilerplateCommand implements CommandInterface
 {
@@ -54,10 +54,10 @@ class BoilerplateCommand implements CommandInterface
 
     private static function help() {
         echo Console::normal('This command will copy the selected boilerplate from ')
-            .Console::light_purple('https://github.com/radiantabyss/lumi-sources')
+            .Console::light_purple('https://github.com/radiantabyss/sources')
             .Console::normal(' into the current directory.')."\n"
-            .Console::normal('Example: ').Console::green('lumi boilerplate vue').Console::normal(' will copy the contents of ')
-            .Console::light_purple('https://github.com/radiantabyss/lumi-sources/archive/refs/heads/vue.zip')
+            .Console::normal('Example: ').Console::green('ra boilerplate vue').Console::normal(' will copy the contents of ')
+            .Console::light_purple('https://github.com/radiantabyss/sources/archive/refs/heads/vue.zip')
             .Console::normal(' into the current directory.')."\n"
             .Console::normal('Note: If the directory is not empty the command will not continue unless ')
             .Console::yellow('--force')
@@ -99,7 +99,7 @@ class BoilerplateCommand implements CommandInterface
     }
 
     private static function download() {
-        $url = 'https://github.com/radiantabyss/lumi-sources/archive/refs/heads/'.self::$boilerplate.'.zip';
+        $url = 'https://github.com/radiantabyss/sources/archive/refs/heads/'.self::$boilerplate.'.zip';
 
         if ( !is_writable(self::$cwd) ) {
             Console::error(self::$cwd.' is not writable or does not exist.');
@@ -140,8 +140,8 @@ class BoilerplateCommand implements CommandInterface
     }
 
     private static function copy() {
-        copy_recursive(self::$cwd.'/lumi-sources-'.self::$boilerplate.'/'.self::$boilerplate, self::$cwd);
-        delete_recursive(self::$cwd.'/lumi-sources-'.self::$boilerplate);
+        copy_recursive(self::$cwd.'/sources-'.self::$boilerplate.'/'.self::$boilerplate, self::$cwd);
+        delete_recursive(self::$cwd.'/sources-'.self::$boilerplate);
 
         return true;
     }

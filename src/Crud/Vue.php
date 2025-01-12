@@ -1,5 +1,5 @@
 <?php
-namespace Lumi\CLI\Crud;
+namespace RA\CLI\Crud;
 
 class Vue
 {

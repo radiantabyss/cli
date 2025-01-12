@@ -1,8 +1,8 @@
 <?php
-namespace Lumi\CLI\Commands;
+namespace RA\CLI\Commands;
 
-use Lumi\CLI\Console;
-use Lumi\CLI\Crud;
+use RA\CLI\Console;
+use RA\CLI\Crud;
 
 class CrudCommand implements CommandInterface
 {

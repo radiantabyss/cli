@@ -1,5 +1,5 @@
 <?php
-namespace Lumi\CLI\Commands;
+namespace RA\CLI\Commands;
 
 class BuildCommand implements CommandInterface
 {
@@ -57,7 +57,7 @@ class BuildCommand implements CommandInterface
             return;
         }
 
-        $Builder = '\\Lumi\\CLI\\Builders\\'.pascal_case($_ENV['LUMI_BUILDER']).'Builder';
+        $Builder = '\\RA\\CLI\\Builders\\'.pascal_case($_ENV['BUILDER']).'Builder';
         $Builder::run(self::$options);
     }
 
@@ -66,7 +66,7 @@ class BuildCommand implements CommandInterface
             return;
         }
 
-        $Publisher = '\\Lumi\\CLI\\Publishers\\'.pascal_case($_ENV['LUMI_PUBLISHER']).'Publisher';
+        $Publisher = '\\RA\\CLI\\Publishers\\'.pascal_case($_ENV['PUBLISHER']).'Publisher';
         $Publisher::run(self::$options);
     }
 }

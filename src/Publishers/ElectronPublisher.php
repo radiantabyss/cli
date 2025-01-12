@@ -1,5 +1,5 @@
 <?php
-namespace Lumi\CLI\Publishers;
+namespace RA\CLI\Publishers;
 
 class ElectronPublisher implements PublisherInterface
 {
@@ -79,7 +79,7 @@ class ElectronPublisher implements PublisherInterface
 
     private static function makeFilezillaXML() {
         $servers = [];
-        $env_servers = explode(';', $_ENV['LUMI_PUBLISHER_SERVERS']);
+        $env_servers = explode(';', $_ENV['PUBLISHER_SERVERS']);
         foreach ( $env_servers as $env_server ) {
             $exp = explode('::', $env_server);
             $servers[] = [

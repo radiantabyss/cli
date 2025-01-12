@@ -1,5 +1,5 @@
 <?php
-namespace Lumi\CLI\Builders;
+namespace RA\CLI\Builders;
 
 interface BuilderInterface
 {

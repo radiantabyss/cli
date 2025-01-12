@@ -1,7 +1,7 @@
 <?php
-namespace Lumi\CLI\Commands;
+namespace RA\CLI\Commands;
 
-use Lumi\CLI\Console;
+use RA\CLI\Console;
 
 class VersionCommand implements CommandInterface
 {

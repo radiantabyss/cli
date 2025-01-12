@@ -1,5 +1,5 @@
 <?php
-namespace Lumi\CLI\Commands;
+namespace RA\CLI\Commands;
 
 class BuildCliCommand implements CommandInterface
 {
@@ -9,7 +9,7 @@ class BuildCliCommand implements CommandInterface
             $files = array_merge($files, get_files_recursive('vendor', [], false));
             $files[] = 'artisan';
 
-            $phar = new \Phar('lumi.phar');
+            $phar = new \Phar('ra.phar');
             $phar->startBuffering();
 
             foreach ( $files as $file ) {
@@ -31,7 +31,7 @@ class BuildCliCommand implements CommandInterface
             $phar->setStub("#!/usr/bin/env php\n" . $phar->createDefaultStub('artisan'));
             $phar->stopBuffering();
 
-            rename('lumi.phar', 'dist/lumi.phar');
+            rename('ra.phar', 'dist/ra.phar');
         }
         catch(\UnexpectedValueException $e) {
             $ok = shell_exec('php -d phar.readonly=0 artisan build-cli');

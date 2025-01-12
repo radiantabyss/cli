@@ -1,5 +1,5 @@
 <?php
-namespace Lumi\CLI\Commands;
+namespace RA\CLI\Commands;
 
 class SpriteCommand implements CommandInterface
 {

@@ -1,5 +1,5 @@
 <?php
-namespace Lumi\CLI;
+namespace RA\CLI;
 
 class Config
 {
@@ -7,7 +7,7 @@ class Config
         'bundle-dependencies' => [
             'laravel-auth' => [
                 'composer' => [
-                    'radiantabyss/lumi-laravel-auth:^3.*',
+                    'radiantabyss/laravel-auth:^3.*',
                 ],
             ],
             'vue-admin' => [
@@ -29,7 +29,7 @@ class Config
                 'composer' => [
                     'jaybizzle/crawler-detect:^1.2',
                     'laravel/framework:10.*',
-                    'radiantabyss/lumi-laravel-core:1.*',
+                    'radiantabyss/laravel:1.*',
                 ],
                 'composer_dev' => [
                     'filp/whoops:^2.0',
@@ -39,9 +39,9 @@ class Config
 
         'bundle-post-install-commands' => [
             'laravel-auth' => [
-                'php artisan vendor:publish lumi-auth:config',
-                'php artisan vendor:publish lumi-auth:routes',
-                'php artisan vendor:publish lumi-auth:migrations',
+                'php artisan vendor:publish ra-auth:config',
+                'php artisan vendor:publish ra-auth:routes',
+                'php artisan vendor:publish ra-auth:migrations',
             ],
         ],
     ];

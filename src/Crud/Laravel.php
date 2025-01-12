@@ -1,5 +1,5 @@
 <?php
-namespace Lumi\CLI\Crud;
+namespace RA\CLI\Crud;
 
 class Laravel
 {
@@ -40,7 +40,7 @@ echo <<<END
 namespace App\Domains\\$namespace\Actions;
 
 use Illuminate\Routing\Controller as Action;
-use Lumi\Core\Response;
+use RA\Core\Response;
 use App\Models as Model;
 use App\Domains\\$namespace\Presenters\Presenter;
 use App\Domains\\$namespace\Transformers\Transformer;
@@ -77,7 +77,7 @@ echo <<<END
 namespace App\Domains\\$namespace\Actions;
 
 use Illuminate\Routing\Controller as Action;
-use Lumi\Core\Response;
+use RA\Core\Response;
 use App\Models as Model;
 
 class DeleteAction extends Action
@@ -108,7 +108,7 @@ echo <<<END
 namespace App\Domains\\$namespace\Actions;
 
 use Illuminate\Routing\Controller as Action;
-use Lumi\Core\Response;
+use RA\Core\Response;
 use App\Models as Model;
 use App\Domains\\$namespace\Presenters\EditPresenter;
 
@@ -140,7 +140,7 @@ echo <<<END
 namespace App\Domains\\$namespace\Actions;
 
 use Illuminate\Routing\Controller as Action;
-use Lumi\Core\Response;
+use RA\Core\Response;
 use App\Models as Model;
 
 class ListAction extends Action
@@ -177,7 +177,7 @@ echo <<<END
 namespace App\Domains\\$namespace\Actions;
 
 use Illuminate\Routing\Controller as Action;
-use Lumi\Core\Response;
+use RA\Core\Response;
 use App\Models as Model;
 use App\Domains\\$namespace\Presenters\Presenter;
 use App\Domains\\$namespace\Transformers\PatchTransformer;
@@ -217,7 +217,7 @@ echo <<<END
 namespace App\Domains\\$namespace\Actions;
 
 use Illuminate\Routing\Controller as Action;
-use Lumi\Core\Response;
+use RA\Core\Response;
 use App\Models as Model;
 
 class SearchAction extends Action
@@ -267,7 +267,7 @@ echo <<<END
 namespace App\Domains\\$namespace\Actions;
 
 use Illuminate\Routing\Controller as Action;
-use Lumi\Core\Response;
+use RA\Core\Response;
 use App\Models as Model;
 use App\Domains\\$namespace\Presenter;
 
@@ -299,7 +299,7 @@ echo <<<END
 namespace App\Domains\\$namespace\Actions;
 
 use Illuminate\Routing\Controller as Action;
-use Lumi\Core\Response;
+use RA\Core\Response;
 use App\Models as Model;
 use App\Domains\\$namespace\Presenters\Presenter;
 use App\Domains\\$namespace\Transformers\Transformer;
@@ -339,9 +339,9 @@ echo <<<END
 <?php
 namespace App\Domains\\$namespace\Filters;
 
-use Lumi\Core\Filter as Lumi_Filter;
+use RA\Core\Filter as RA_Filter;
 
-class Filter extends Lumi_Filter
+class Filter extends RA_Filter
 {
     protected static \$table = '$model_name';
 }

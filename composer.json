@@ -1,11 +1,11 @@
 {
-    "name": "radiantabyss/lumi-cli",
-    "description": "Lumi CLI",
+    "name": "radiantabyss/cli",
+    "description": "RA CLI",
     "keywords": [
-        "lumi vue artisan",
+        "ra vue artisan",
 		"vue artisan"
     ],
-    "homepage": "https://lumi.radiantabyss.com/cli",
+    "homepage": "https://radiantabyss.com/cli",
     "license": "proprietary",
     "type": "library",
     "authors": [
@@ -20,7 +20,7 @@
     },
     "autoload": {
         "psr-4": {
-            "Lumi\\CLI\\": "src"
+            "RA\\CLI\\": "src"
         },
         "files": [
             "src/helpers.php"
@@ -28,7 +28,7 @@
     },
     "autoload-dev": {
         "psr-4": {
-            "Lumi\\CLI\\Tests\\": "tests"
+            "RA\\CLI\\Tests\\": "tests"
         }
     }
 }

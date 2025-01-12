@@ -1,5 +1,5 @@
 <?php
-namespace Lumi\CLI;
+namespace RA\CLI;
 
 /**
  * PHP Colored CLI

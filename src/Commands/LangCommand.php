@@ -1,7 +1,7 @@
 <?php
-namespace Lumi\CLI\Commands;
+namespace RA\CLI\Commands;
 
-use Lumi\CLI\Console;
+use RA\CLI\Console;
 
 class LangCommand implements CommandInterface
 {
@@ -10,7 +10,7 @@ class LangCommand implements CommandInterface
         $langs = self::langs();
 
         $translate = $options['translate'] ?? false;
-        $translate_api_key = $_ENV['LUMI_DEEPL_KEY'] ?? '';
+        $translate_api_key = $_ENV['DEEPL_KEY'] ?? '';
 
         if ( $translate && !$translate_api_key ) {
             Console::log('Warning! DEEPL API key missing.', 'yellow');
@@ -107,7 +107,7 @@ class LangCommand implements CommandInterface
     }
 
     private static function translate($contents, $lang) {
-        $api_key = $_ENV['LUMI_DEEPL_KEY'] ?? '';
+        $api_key = $_ENV['DEEPL_KEY'] ?? '';
 
         if ( !$api_key ) {
             return $contents;

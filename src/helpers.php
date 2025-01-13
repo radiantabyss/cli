@@ -30,6 +30,9 @@ function ddmp($text) {
 }
 
 function delete_recursive($directory) {
+    $directory = str_replace(getcwd().'/', '', $directory);
+    $directory = getcwd().'/'.$directory;
+
     foreach(glob("{$directory}/*") as $file) {
         if ( is_dir($file) ) {
             delete_recursive($file);

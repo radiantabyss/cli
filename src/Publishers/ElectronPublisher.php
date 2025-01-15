@@ -45,7 +45,7 @@ class ElectronPublisher implements PublisherInterface
     private static function copyInstaller() {
         $archs = ['ia32', 'x64'];
         foreach ( $archs as $arch ) {
-            copy('dist_electron/'.self::$name.' Setup '.self::$version.($arch == 'ia32' ? '-x32' : '').'.exe',
+            copy_recursive('dist_electron/'.self::$name.' Setup '.self::$version.($arch == 'ia32' ? '-x32' : '').'.exe',
                 '../files_cdn/public/'.self::$name.' Setup '.self::$version.($arch == 'ia32' ? '-x32' : '').'.exe');
         }
     }
@@ -56,7 +56,7 @@ class ElectronPublisher implements PublisherInterface
         chdir('dist_electron/win-unpacked/resources');
         shell_exec('zip -r app.zip app.asar');
         chdir($cwd);
-        rename('dist_electron/win-unpacked/resources/app.zip', '../files_cdn/public/app.zip');
+        abs_rename('dist_electron/win-unpacked/resources/app.zip', '../files_cdn/public/app.zip');
     }
 
     private static function copyUpdatedStaticFiles() {
@@ -69,11 +69,11 @@ class ElectronPublisher implements PublisherInterface
             }
 
             mkdir(pathinfo('latest/'.$file)['dirname'], 0777, true);
-            copy($file, 'latest/'.$file);
+            copy_recursive($file, 'latest/'.$file);
         }
 
         shell_exec('zip -r latest.zip latest');
-        rename('latest.zip', '../files_cdn/public/latest.zip');
+        abs_rename('latest.zip', '../files_cdn/public/latest.zip');
         delete_recursive('latest');
     }
 

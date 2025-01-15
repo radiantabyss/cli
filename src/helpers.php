@@ -189,3 +189,7 @@ function abs_file_put_contents($file, $contents) {
 function abs_file_exists($file) {
     return file_exists(getcwd().'/'.$file);
 }
+
+function abs_rename($source, $destination) {
+    rename(getcwd().'/'.$source, getcwd().'/'.$destination);
+}

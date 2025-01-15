@@ -9,15 +9,11 @@ class SpriteCommand implements CommandInterface
     }
 
     private static function png() {
-        shell_exec('npm run sprite');
+        // shell_exec('npm run sprite');
     }
 
     private static function svg() {
-        if ( !command_exists('svg-sprite-generate') ) {
-            echo "\n\nRun \033[96mnpm i svg-sprite-generator -g\033[0m for build speed improvement.\n\n";
-        }
-
-        shell_exec((!command_exists('svg-sprite-generate') ? 'npx -p svg-sprite-generator ' : '').'svg-sprite-generate -d sprites/svgs -o static/sprites.svg');
+        shell_exec('npx svg-sprite-generate -d sprites/svgs -o static/sprites.svg');
 
         $sprites = abs_file_get_contents('static/sprites.svg');
         $sprites = preg_replace('/stroke="((?!none).)*?"/', 'stroke="currentColor"', $sprites);

@@ -1,43 +1,52 @@
 <?php
 namespace RA\CLI\Builders;
 
+use RA\CLI\Commands as Command;
+
 class VueBuilder implements BuilderInterface
 {
-    private static $options;
+    private static $options = [
+        'skip-sprites' => false,
+        'skip-build' => false,
+        'skip-publish' => false,
+        'keep-dark-mode' => false,
+        'fast' => false,
+    ];
 
     public static function run($options) {
-        //set options
-        self::$options = $options;
+        self::$options = array_merge(self::$options, $options);
 
-        //build
+        Command\StaticCommand::run([]);
+        Command\SassCommand::run([]);
+
+        if ( !self::$options['skip-sprites'] && !self::$options['fast'] ) {
+            Command\SpriteCommand::run([]);
+        }
+
         self::build();
-
-        //rename index.html to index.php
-        rename('dist/index.html', 'dist/index.php');
-
-        //write index.php
         self::ssr();
-
-        //create htaccess file for apache servers
         self::htaccess();
-
-        //copy static content
         self::copyStatic();
-
-        //set error page
         self::errorPage();
+        self::publish();
     }
 
     private static function build() {
+        if ( self::$options['skip-build'] ) {
+            return;
+        }
+
         if ( !self::$options['fast'] ) {
             shell_exec('npm install');
         }
 
-        shell_exec('npm run build');
+        shell_exec('npx vite build');
 
         if ( !abs_file_exists('dist') ) {
             throw new \Exception('Vue Builder failed.');
         }
+
+        abs_rename('dist/index.html', 'dist/index.php');
     }
 
     private static function ssr() {
@@ -91,7 +100,7 @@ class VueBuilder implements BuilderInterface
 
     private static function errorPage() {
         //make error page
-        copy('dist/index.php', 'dist/404.php');
+        copy_recursive('dist/index.php', 'dist/404.php');
         $contents = abs_file_get_contents('dist/404.php');
         abs_file_put_contents('dist/404.php', str_replace('<div id=app></div>', '<div id=app>'.
         '<div class="content text-center pt-30">'.
@@ -99,5 +108,16 @@ class VueBuilder implements BuilderInterface
         '    <div class="subtitle">We\'re sorry, the page you\'re looking for doesn\'t exist.</div>'.
         '</div></div>',
         $contents));
+    }
+
+    private static function publish() {
+        if ( self::$options['skip-build'] || self::$options['skip-publish'] ) {
+            return;
+        }
+
+        @abs_rename('release', 'release2');
+        abs_rename('dist', 'release');
+        @delete_recursive('release2');
+        delete_recursive('public');
     }
 }

@@ -60,7 +60,7 @@ class CrudCommand implements CommandInterface
             $_exp2 = pascal_case($_exp2);
         }
 
-        $folder_path = 'src/Domains/'.implode('/', $exp2);
+        $folder_path = 'app/Domains/'.implode('/', $exp2);
         $namespace = implode('\\', $exp2);
         $item_name = implode(' ', $exp2);
         $url = '/'.implode('/', array_map(function($_exp2) {

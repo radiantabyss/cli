@@ -55,7 +55,7 @@ class LangCommand implements CommandInterface
     }
 
     private static function terms() {
-        $files = get_files_recursive('src');
+        $files = get_files_recursive('app');
         $terms = [];
 
         foreach ( $files as $file ) {

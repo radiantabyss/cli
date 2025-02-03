@@ -59,7 +59,13 @@ class ElectronBuilder
 
         //change index.php to index.html
         abs_rename('front/index.php', 'front/index.html');
+
+        //move static folder outside so it isn't included in asar
+        copy_recursive('front/static', 'static');
+        delete_recursive('front/static');
+
         Console::log('finished copying front');
+
     }
 
     private static function fixSprites() {
@@ -81,6 +87,9 @@ class ElectronBuilder
         $contents = abs_file_get_contents('front/index.html');
         $contents = str_replace('</body>', $sprites.'</body>', $contents);
         abs_file_put_contents('front/index.html', $contents);
+
+        //delete sprites file
+        delete_recursive('front/sprites.svg');
     }
 
     private static function build() {

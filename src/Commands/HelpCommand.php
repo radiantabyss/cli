@@ -31,7 +31,7 @@ class HelpCommand implements CommandInterface
         echo Console::green('static').Console::grey(str_repeat('.', 15)).Console::normal('Copies static assets to public folder. Called automatically when ').Console::green('build').Console::normal('ing.')."\n";
         echo "\n";
 
-        echo Console::green('lang').Console::grey(str_repeat('.', 17)).Console::normal('Parses translated text from src and puts them in lang/{lang}.json')."\n";
+        echo Console::green('lang').Console::grey(str_repeat('.', 17)).Console::normal('Parses translated text from app and puts them in lang/{lang}.json')."\n";
         echo str_repeat(' ', 2).Console::yellow('--translate').str_repeat(' ', 8).Console::grey('Translates using DeepL. Requires an api key.')."\n";
         echo "\n";
 

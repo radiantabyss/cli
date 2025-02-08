@@ -19,7 +19,12 @@ class CrudCommand implements CommandInterface
             return self::laravel($domain, $force);
         }
         else if ( abs_file_exists('.env') ) {
-            return self::vue($domain, $force);
+            if ( preg_match('/BUILDER=electron/', abs_file_get_contents('.ra')) ) {
+                return self::electron($domain, $force);
+            }
+            else {
+                return self::vue($domain, $force);
+            }
         }
 
         echo Console::red('Error!').' Project could not be identified. Call this command in the root folder of the project.';
@@ -47,6 +52,30 @@ class CrudCommand implements CommandInterface
         }
 
         Crud\Laravel::run($folder_path, $namespace, $model_name, $item_name);
+    }
+
+    private static function electron($domain, $force) {
+        $exp = explode('/', $domain);
+        $exp2 = [];
+        foreach ( $exp as $_exp ) {
+            $exp2 = array_merge($exp2, explode('\\', $_exp));
+        }
+
+        foreach ( $exp2 as &$_exp2 ) {
+            $_exp2 = pascal_case($_exp2);
+        }
+
+        $folder_path = 'app/Domains/'.implode('/', $exp2);
+        $namespace = implode('\\', $exp2);
+        $model_name = implode($exp2);
+        $item_name = implode(' ', $exp2);
+
+        if ( abs_file_exists($folder_path) && !$force ) {
+            echo Console::red('Error!').' A Domain with this name already exists.';
+            return;
+        }
+
+        Crud\Electron::run($folder_path, $namespace, $model_name, $item_name);
     }
 
     private static function vue($domain, $force) {

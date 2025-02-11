@@ -90,7 +90,7 @@ class ElectronBuilder
         }
 
         $contents = abs_file_get_contents('front/assets/'.$file);
-        $contents = str_replace('/sprites.svg?v=${t.version}', '', $contents);
+        $contents = preg_replace('/\/sprites\.svg\?v=\$\{.*?\.version\}/', '', $contents);
         abs_file_put_contents('front/assets/'.$file, $contents);
 
         //add sprites.svg contents to index.html

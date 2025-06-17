@@ -9,7 +9,7 @@ class BoilerplateCommand implements CommandInterface
     private static $cwd;
     private static $boilerplate;
     private static $boilerplates = [
-        'laravel', 'vue',
+        'laravel', 'vue', 'electron',
     ];
 
     public static function run($options) {

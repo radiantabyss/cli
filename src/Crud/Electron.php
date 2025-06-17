@@ -353,7 +353,8 @@ END;
 
 echo <<<END
 let self = {
-    run(data) {
+    run(data, id = null) {
+        delete data.id;
         return data;
     },
 };

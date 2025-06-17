@@ -14,20 +14,14 @@ class CrudCommand implements CommandInterface
 
         $domain = $options[0];
         $force = $options['force'] ?? false;
+        $project_type = $_ENV['PROJECT_TYPE'];
 
-        if ( abs_file_exists('env.php') ) {
-            return self::laravel($domain, $force);
-        }
-        else if ( abs_file_exists('.env') ) {
-            if ( preg_match('/BUILDER=electron/', abs_file_get_contents('.ra')) ) {
-                return self::electron($domain, $force);
-            }
-            else {
-                return self::vue($domain, $force);
-            }
+        if ( !$project_type ) {
+            echo Console::red('Error!').' Project could not be identified. Call this command in the root folder of the project.';
+            return;
         }
 
-        echo Console::red('Error!').' Project could not be identified. Call this command in the root folder of the project.';
+        self::laravel($domain, $force);
     }
 
     private static function laravel($domain, $force) {

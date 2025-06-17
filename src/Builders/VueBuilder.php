@@ -36,6 +36,9 @@ class VueBuilder implements BuilderInterface
             return;
         }
 
+        //copy static for npx vite build
+        copy_recursive('static', 'public');
+
         if ( !self::$options['fast'] ) {
             shell_exec('npm install');
         }

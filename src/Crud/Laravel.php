@@ -40,7 +40,7 @@ echo <<<END
 namespace App\Domains\\$namespace\Actions;
 
 use Illuminate\Routing\Controller as Action;
-use RA\Core\Response;
+use RA\Response;
 use App\Models as Model;
 use App\Domains\\$namespace\Presenters\Presenter;
 use App\Domains\\$namespace\Transformers\Transformer;
@@ -77,7 +77,7 @@ echo <<<END
 namespace App\Domains\\$namespace\Actions;
 
 use Illuminate\Routing\Controller as Action;
-use RA\Core\Response;
+use RA\Response;
 use App\Models as Model;
 
 class DeleteAction extends Action
@@ -108,7 +108,7 @@ echo <<<END
 namespace App\Domains\\$namespace\Actions;
 
 use Illuminate\Routing\Controller as Action;
-use RA\Core\Response;
+use RA\Response;
 use App\Models as Model;
 use App\Domains\\$namespace\Presenters\EditPresenter;
 
@@ -140,12 +140,14 @@ echo <<<END
 namespace App\Domains\\$namespace\Actions;
 
 use Illuminate\Routing\Controller as Action;
-use RA\Core\Response;
+use RA\Response;
 use App\Models as Model;
+use App\Domains\\$namespace\Filters\Filter;
+use App\Domains\\$namespace\Presenters\ListPresenter;
 
 class ListAction extends Action
 {
-    public function run(\$id) {
+    public function run() {
         //get query
         \$query = Model\\$model_name::query();
 
@@ -177,7 +179,7 @@ echo <<<END
 namespace App\Domains\\$namespace\Actions;
 
 use Illuminate\Routing\Controller as Action;
-use RA\Core\Response;
+use RA\Response;
 use App\Models as Model;
 use App\Domains\\$namespace\Presenters\Presenter;
 use App\Domains\\$namespace\Transformers\PatchTransformer;
@@ -217,12 +219,12 @@ echo <<<END
 namespace App\Domains\\$namespace\Actions;
 
 use Illuminate\Routing\Controller as Action;
-use RA\Core\Response;
+use RA\Response;
 use App\Models as Model;
 
 class SearchAction extends Action
 {
-    public function run(\$id) {
+    public function run() {
         \$data = \Request::all();
 
         \$query = Model\\$model_name::where(function(\$query) use(\$data) {
@@ -267,7 +269,7 @@ echo <<<END
 namespace App\Domains\\$namespace\Actions;
 
 use Illuminate\Routing\Controller as Action;
-use RA\Core\Response;
+use RA\Response;
 use App\Models as Model;
 use App\Domains\\$namespace\Presenter;
 
@@ -299,7 +301,7 @@ echo <<<END
 namespace App\Domains\\$namespace\Actions;
 
 use Illuminate\Routing\Controller as Action;
-use RA\Core\Response;
+use RA\Response;
 use App\Models as Model;
 use App\Domains\\$namespace\Presenters\Presenter;
 use App\Domains\\$namespace\Transformers\Transformer;
@@ -339,7 +341,7 @@ echo <<<END
 <?php
 namespace App\Domains\\$namespace\Filters;
 
-use RA\Core\Filter as RA_Filter;
+use RA\Filter as RA_Filter;
 
 class Filter extends RA_Filter
 {
@@ -483,9 +485,11 @@ echo <<<END
 <?php
 namespace App\Domains\\$namespace\Validators;
 
+use App\\Models as Model;
+
 class Validator
 {
-    public static function run(\$data) {
+    public static function run(\$data, \$id = null) {
         //check if item exists
         if ( \$id ) {
             \$item = Model\\$model_name::find(\$id);
@@ -511,6 +515,6 @@ class Validator
 END;
 
         $contents = ob_get_clean();
-        abs_file_put_contents($folder_path.'/Validators/PatchValidator.php', $contents);
+        abs_file_put_contents($folder_path.'/Validators/Validator.php', $contents);
     }
 }

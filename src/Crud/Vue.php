@@ -54,16 +54,13 @@ export default {
 <template>
 
 <div v-if="item">
-    <div class="page-title">
-        <div>
-            <t>Edit $item_name</t> #{{ item.id }}
-            <div class="crumbs">
-                <router-link to="/"><sprite id="home" /></router-link>
-                <sprite id="arrow-right" />
-                <router-link to="$url"><t>$item_name_plural</t></router-link>
-                <sprite id="arrow-right" />
-                <span><t>Edit $item_name</t> #{{ item.id }}</span>
-            </div>
+    <div class="flex items-center space-between mb-10">
+        <div class="crumbs">
+            <router-link to="/"><sprite id="home" /></router-link>
+            <sprite id="arrow-right" />
+            <router-link to="$url"><t>$item_name_plural</t></router-link>
+            <sprite id="arrow-right" />
+            <span><t>Edit $item_name</t> #{{ item.id }}</span>
         </div>
     </div>
 
@@ -97,14 +94,11 @@ export default {
 
 <template>
 <div>
-    <div class="page-title">
+    <div class="crumbs crumbs--with-buttons">
         <div>
-            <t>$item_name_plural</t>
-            <div class="crumbs">
-                <router-link to="/"><sprite id="home" /></router-link>
-                <sprite id="arrow-right" />
-                <span>$item_name_plural</t></span>
-            </div>
+            <router-link to="/"><sprite id="home" /></router-link>
+            <sprite id="arrow-right" />
+            <span><t>$item_name_plural</t></span>
         </div>
         <router-link to="$url/new" class="btn btn--auto btn--small">
             <sprite id="plus" /> <t>New</t>
@@ -168,16 +162,13 @@ export default {
 <template>
 
 <div>
-    <div class="page-title">
-        <div>
-            <t>New $item_name</t>
-            <div class="crumbs">
-                <router-link to="/"><sprite id="home" /></router-link>
-                <sprite id="arrow-right" />
-                <router-link to="$url"><t>$item_name_plural</t></router-link>
-                <sprite id="arrow-right" />
-                <span><t>New $item_name</t></span>
-            </div>
+    <div class="flex items-center space-between mb-10">
+        <div class="crumbs">
+            <router-link to="/"><sprite id="home" /></router-link>
+            <sprite id="arrow-right" />
+            <router-link to="$url"><t>$item_name_plural</t></router-link>
+            <sprite id="arrow-right" />
+            <span><t>New $item_name</t></span>
         </div>
     </div>
 
@@ -209,11 +200,6 @@ export default {
             required: false,
             default: null,
         },
-        redirect: {
-            type: Boolean,
-            required: false,
-            default: true,
-        }
     },
     data() {
         return {
@@ -367,7 +353,7 @@ export default {
                 <thead>
                     <tr>
                         <th style="width: 40px;"></th>
-                        <th-sort style="width: 40px;"><t>ID</t></th-sort>
+                        <th-sort field="id" style="width: 40px;"><t>ID</t></th-sort>
                         <th-sort field="name"><t>Name</t></th-sort>
                     </tr>
                 </thead>

@@ -6,8 +6,13 @@ use RA\CLI\Console;
 class LangCommand implements CommandInterface
 {
     public static function run($options) {
+        $lang_files_path = 'static/lang';
+        if ( $_ENV['PROJECT_TYPE'] == 'laravel' ) {
+            $lang_files_path = 'lang';
+        }
+
         $terms = self::terms();
-        $langs = self::langs();
+        $langs = self::langs($lang_files_path);
 
         $translate = $options['translate'] ?? false;
         $translate_api_key = $_ENV['DEEPL_KEY'] ?? '';
@@ -21,7 +26,7 @@ class LangCommand implements CommandInterface
                 continue;
             }
 
-            $contents = isset($options['force']) ? [] : decode_json(abs_file_get_contents('static/lang/'.$lang.'.json'));
+            $contents = isset($options['force']) ? [] : decode_json(abs_file_get_contents($lang_files_path.'/'.$lang.'.json'));
 
             foreach ( $terms as $term ) {
                 $contents[$term] = $contents[$term] ?? $term;
@@ -31,7 +36,7 @@ class LangCommand implements CommandInterface
                 $contents = self::translate($contents, $lang);
             }
 
-            abs_file_put_contents('static/lang/'.$lang.'.json', json_encode($contents, JSON_PRETTY_PRINT|JSON_UNESCAPED_UNICODE));
+            abs_file_put_contents($lang_files_path.'/'.$lang.'.json', json_encode($contents, JSON_PRETTY_PRINT|JSON_UNESCAPED_UNICODE));
 
             //check if there are any untranslated terms
             if ( isset($options['check']) ) {
@@ -64,14 +69,14 @@ class LangCommand implements CommandInterface
                 continue;
             }
 
-            $contents = abs_file_get_contents($file);
+            $contents = file_get_contents($file);
 
-            $regexs = [
+            $regexes = [
                 '/\_\_\(\'(.*?)\'\)/', // __() function
                 '/<t>(.*?)<\/t>/s', // <t> tags
             ];
 
-            foreach ( $regexs as $regex ) {
+            foreach ( $regexes as $regex ) {
                 preg_match_all($regex, $contents, $matches);
 
                 if ( !count($matches) || !count($matches[1]) ) {
@@ -93,8 +98,8 @@ class LangCommand implements CommandInterface
         return array_unique($terms);
     }
 
-    private static function langs() {
-        $files = scandir('static/lang');
+    private static function langs($lang_files_path) {
+        $files = scandir($lang_files_path);
         $langs = [];
 
         foreach ( $files as $file ) {

@@ -20,6 +20,14 @@ class Artisan
             return;
         }
 
+        if ( !abs_file_exists('.ra') ) {
+            echo "\033[31mError:\033[0m .ra file is missing.";
+            die();
+        }
+
+        self::setProjectType();
+        self::loadRA();
+
         try {
             $Command::run(self::$options);
         }
@@ -55,5 +63,39 @@ class Artisan
         }
 
         self::$options = $options;
+    }
+
+    private static function setProjectType() {
+        $project_type = '';
+        
+        if ( abs_file_exists('env.php') ) {
+            $project_type = 'laravel';
+        }
+        else if ( abs_file_exists('.env') ) {
+            if ( preg_match('/BUILDER=electron/', abs_file_get_contents('.ra')) ) {
+                $project_type = 'laravel';
+            }
+            else {
+                $project_type = 'vue';
+            }
+        }
+
+        $_ENV['PROJECT_TYPE'] = $project_type;
+    }
+
+    private static function loadRA() {
+        $lines = file(getcwd().'/.ra', FILE_IGNORE_NEW_LINES | FILE_SKIP_EMPTY_LINES);
+        foreach ($lines as $line) {
+            if (strpos(trim($line), '#') === 0) {
+                continue;
+            }
+
+            list($name, $value) = explode('=', $line, 2);
+            $name = trim($name);
+            $value = trim($value);
+
+            putenv(sprintf('%s=%s', $name, $value));
+            $_ENV[$name] = $value;
+        }
     }
 }

@@ -20,13 +20,15 @@ class Artisan
             return;
         }
 
-        if ( !abs_file_exists('.ra') ) {
+        $commands_without_ra_env = ['build-cli', 'boilerplate', 'bundle', 'publish-sources'];
+
+        if ( !abs_file_exists('.ra') && !in_array(self::$command, $commands_without_ra_env) ) {
             echo "\033[31mError:\033[0m .ra file is missing.";
             die();
         }
 
-        self::setProjectType();
         self::loadRA();
+        self::setProjectType();
 
         try {
             $Command::run(self::$options);
@@ -65,25 +67,11 @@ class Artisan
         self::$options = $options;
     }
 
-    private static function setProjectType() {
-        $project_type = '';
-        
-        if ( abs_file_exists('env.php') ) {
-            $project_type = 'laravel';
-        }
-        else if ( abs_file_exists('.env') ) {
-            if ( preg_match('/BUILDER=electron/', abs_file_get_contents('.ra')) ) {
-                $project_type = 'laravel';
-            }
-            else {
-                $project_type = 'vue';
-            }
-        }
-
-        $_ENV['PROJECT_TYPE'] = $project_type;
-    }
-
     private static function loadRA() {
+        if ( !abs_file_exists('.ra') ) {
+            return;
+        }
+
         $lines = file(getcwd().'/.ra', FILE_IGNORE_NEW_LINES | FILE_SKIP_EMPTY_LINES);
         foreach ($lines as $line) {
             if (strpos(trim($line), '#') === 0) {
@@ -97,5 +85,23 @@ class Artisan
             putenv(sprintf('%s=%s', $name, $value));
             $_ENV[$name] = $value;
         }
+    }
+
+    private static function setProjectType() {
+        $project_type = '';
+
+        if ( abs_file_exists('env.php') ) {
+            $project_type = 'laravel';
+        }
+        else if ( abs_file_exists('.env') ) {
+            if ( preg_match('/BUILDER=electron/', abs_file_get_contents('.ra')) ) {
+                $project_type = 'laravel';
+            }
+            else {
+                $project_type = 'vue';
+            }
+        }
+
+        $_ENV['PROJECT_TYPE'] = $project_type;
     }
 }

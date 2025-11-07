@@ -9,7 +9,6 @@ class VueBuilder implements BuilderInterface
         'skip-sprites' => false,
         'skip-build' => false,
         'skip-publish' => false,
-        'keep-dark-mode' => false,
         'fast' => false,
     ];
 
@@ -46,10 +45,9 @@ class VueBuilder implements BuilderInterface
         shell_exec('npx vite build');
 
         if ( !abs_file_exists('dist') ) {
-            throw new \Exception('Vue Builder failed.');
+            throw new \Exception('Vue build failed.');
         }
 
-        abs_rename('dist/index.html', 'dist/index.php');
     }
 
     private static function ssr() {
@@ -57,6 +55,7 @@ class VueBuilder implements BuilderInterface
             return;
         }
 
+        abs_rename('dist/index.html', 'dist/index.php');
         $index_contents = abs_file_get_contents('dist/index.php');
 
         preg_match('/\<script type="module" crossorigin src="\/assets\/index-(.*)?\.js/', $index_contents, $match);
@@ -86,6 +85,10 @@ class VueBuilder implements BuilderInterface
     }
 
     private static function htaccess() {
+        if ( !abs_file_exists('ssr-env.php') ) {
+            return;
+        }
+
         abs_file_put_contents('dist/.htaccess', '<IfModule mod_rewrite.c>
             RewriteEngine On
             RewriteBase /
@@ -102,6 +105,10 @@ class VueBuilder implements BuilderInterface
     }
 
     private static function errorPage() {
+        if ( !abs_file_exists('ssr-env.php') ) {
+            return;
+        }
+
         //make error page
         copy_recursive('dist/index.php', 'dist/404.php');
         $contents = abs_file_get_contents('dist/404.php');

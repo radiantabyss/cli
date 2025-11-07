@@ -21,7 +21,7 @@ class CrudCommand implements CommandInterface
             return;
         }
 
-        self::laravel($domain, $force);
+        self::$project_type($domain, $force);
     }
 
     private static function laravel($domain, $force) {

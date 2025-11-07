@@ -4,10 +4,10 @@ namespace RA\CLI\Builders;
 use RA\CLI\Commands as Command;
 use RA\CLI\Console;
 
-class ElectronBuilder
+class ElectronBuilder implements BuilderInterface
 {
     private static $options = [
-        'build-front' => false,
+        'front' => false,
         'pack' => false,
     ];
 
@@ -43,8 +43,8 @@ class ElectronBuilder
         }
 
         //if front isn't built, build it
-        if ( !abs_file_exists($_ENV['FRONT_PATH'].'/release') || self::$options['build-front'] ) {
-            Console::log('front is not built. building');
+        if ( !abs_file_exists($_ENV['FRONT_PATH'].'/release') || self::$options['front'] ) {
+            Console::log(self::$options['front'] ? 'building front.' : 'front is not built, building it.');
             $cwd = getcwd();
             chdir($cwd.'/'.$_ENV['FRONT_PATH']);
             shell_exec('ra build');

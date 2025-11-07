@@ -106,8 +106,6 @@ class BoilerplateCommand implements CommandInterface
             return false;
         }
 
-        $zip_file = self::$cwd.'/boilerplate.zip';
-
         $ch = curl_init();
         curl_setopt($ch, CURLOPT_URL, $url);
         curl_setopt($ch, CURLOPT_RETURNTRANSFER, true);
@@ -116,20 +114,19 @@ class BoilerplateCommand implements CommandInterface
         $data = curl_exec($ch);
         curl_close($ch);
 
-        abs_file_put_contents($zip_file, $data);
+        abs_file_put_contents('boilerplate.zip', $data);
 
         return true;
     }
 
     private static function extract() {
-        $zip_file = self::$cwd.'/boilerplate.zip';
         $zip = new \ZipArchive;
 
         try {
-            $zip->open($zip_file);
+            $zip->open('boilerplate.zip');
             $zip->extractTo(self::$cwd);
             $zip->close();
-            unlink($zip_file);
+            unlink(self::$cwd.'/boilerplate.zip');
         }
         catch(\Exception $e) {
             Console::error($e->getMessage());
@@ -140,7 +137,7 @@ class BoilerplateCommand implements CommandInterface
     }
 
     private static function copy() {
-        copy_recursive(self::$cwd.'/sources-'.self::$boilerplate.'/'.self::$boilerplate, self::$cwd);
+        copy_recursive(self::$cwd.'/sources-'.self::$boilerplate.'/'.self::$boilerplate, '');
         delete_recursive(self::$cwd.'/sources-'.self::$boilerplate);
 
         return true;

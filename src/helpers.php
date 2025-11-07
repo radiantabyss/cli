@@ -193,3 +193,11 @@ function abs_file_exists($file) {
 function abs_rename($source, $destination) {
     rename(getcwd().'/'.$source, getcwd().'/'.$destination);
 }
+
+function ensure_dir($dir) {
+    @mkdir(getcwd().'/'.$dir);
+}
+
+function abs_unlink($file) {
+    @unlink(getcwd().'/'.$file);
+}

@@ -54,7 +54,7 @@ class LangCommand implements CommandInterface
             }
         }
 
-        if ( $translate ) {
+        if ( $translate && $_ENV['PROJECT_TYPE'] != 'laravel' ) {
             StaticCommand::run([]);
         }
     }

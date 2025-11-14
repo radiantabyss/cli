@@ -120,14 +120,6 @@ class NeutralinoBuilder implements BuilderInterface
         $neutralino_config = decode_json(abs_file_get_contents('neutralino.config.json'));
         $dist_path = 'dist/'.$neutralino_config['applicationName'];
 
-        ensure_dir($dist_path.'/bin');
-        ensure_dir($dist_path.'/downloads');
-        ensure_dir($dist_path.'/symlinks');
-        copy_recursive('configs-build', $dist_path.'/configs');
-        copy_recursive('service-config', $dist_path.'/service-config');
-
-        abs_unlink($dist_path.'.zip');
-
         //delete platform exes if not used
         $platforms = explode(',', $_ENV['PLATFORMS'] ?? '');
         $available_platforms = [
@@ -152,6 +144,10 @@ class NeutralinoBuilder implements BuilderInterface
             }
 
             abs_rename($dist_path.'/'.$neutralino_config['applicationName'].'-'.$platforms[0], $dist_path.'/'.$neutralino_config['applicationName'].'.exe');
+        }
+
+        if ( abs_file_exists('after-builder.js') ) {
+            shell_exec('node after-build.js');
         }
     }
 
